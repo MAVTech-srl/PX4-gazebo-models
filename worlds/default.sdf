@@ -1,6 +1,30 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <sdf version="1.9">
   <world name="default">
+  <model name="big_box">
+  <static>true</static> <!-- o false se vuoi che si muova -->
+  <link name="link">
+    <visual name="visual">
+      <geometry>
+        <box>
+          <size>10 10 10</size> <!-- Dimensioni del box -->
+        </box>
+      </geometry>
+      <material>
+        <ambient>1 0 0 1</ambient> <!-- colore rosso -->
+        <diffuse>1 0 0 1</diffuse>
+      </material>
+    </visual>
+    <collision name="collision">
+      <geometry>
+        <box>
+          <size>10 10 10</size>
+        </box>
+      </geometry>
+    </collision>
+    <pose>20 0 5 0 0 0</pose> <!-- posizione: 20m davanti, altezza = metà del box -->
+  </link>
+</model>
     <physics type="ode">
       <max_step_size>0.004</max_step_size>
       <real_time_factor>1.0</real_time_factor>
