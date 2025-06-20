@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sdf version="1.9">
-  <world name="default">
-  <model name="world_box">
+  <world name="world_box">
+  <model name="box">
   <static>true</static> <!-- o false se vuoi che si muova -->
   <link name="link">
     <visual name="visual">
