@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.6">
-  <model name="lidar_2d_v2">
+  <model name="lidar_avia">
     <link name="link">
       <pose>0 0 0 0 0 0</pose>
       <inertial>
@@ -47,39 +47,59 @@
           </mesh>
         </geometry>
       </visual>
-      <sensor name="lidar_3d" type="gpu_lidar">
-  <pose>0 0 0.055 0 0 0</pose>
-  <ray>
-    <scan>
-      <horizontal>
-        <samples>1800</samples>
-        <resolution>1</resolution>
-        <min_angle>-2.356195</min_angle>
-        <max_angle>2.356195</max_angle>
-      </horizontal>
-      <vertical>
-        <samples>16</samples>
-        <resolution>1</resolution>
-        <min_angle>-0.261799</min_angle>
-        <max_angle>0.261799</max_angle>
-      </vertical>
-    </scan>
-    <range>
-      <min>0.1</min>
-      <max>30</max>
-      <resolution>0.01</resolution>
-    </range>
-    <noise>
-      <type>gaussian</type>
-      <mean>0.0</mean>
-      <stddev>0.001</stddev>
-    </noise>
-  </ray>
-  <always_on>1</always_on>
-  <update_rate>15</update_rate>
-  <visualize>true</visualize>
-  <topic>lidar_3d</topic>
-</sensor>
+      <sensor name="lidar_avia" type="gpu_lidar">
+	  <pose>0 0 0.055 0 0 0</pose>
+	  <ray>
+	    <scan>
+	      <horizontal>
+		<samples>360</samples>
+		<resolution>1</resolution>
+		<min_angle>-0.614355</min_angle>
+		<max_angle>0.614355</max_angle>
+	      </horizontal>
+	      <vertical>
+		<samples>100</samples>
+		<resolution>1</resolution>
+		<min_angle>-0.674743</min_angle>
+		<max_angle>0.674743</max_angle>
+	      </vertical>
+	    </scan>
+	    <range>
+	      <min>0.5</min>
+	      <max>200.0</max>
+	      <resolution>0.02</resolution>
+	    </range>
+	    <noise>
+	      <type>gaussian</type>
+	      <mean>0.0</mean>
+	      <stddev>0.02</stddev>
+	    </noise>
+	  </ray>
+	  <always_on>1</always_on>
+	  <update_rate>15</update_rate>
+	  <visualize>true</visualize>
+	  <topic>livox/lidar</topic>
+	</sensor>
+	
+	<sensor name="imu_sensor" type="imu">
+        <pose>0 0 0.055 0 0 0</pose>
+        <always_on>true</always_on>
+        <update_rate>250</update_rate>
+        <topic>livox/lidar/imu</topic>
+        <imu>
+          <angular_velocity>
+            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0008726646</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0008726646</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0008726646</stddev></noise></z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.00637</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.0</mean><stddev>0.00637</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.00686</stddev></noise></z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+
     </link>
   </model>
 </sdf>

@@ -305,9 +305,47 @@
         </imu>
       </sensor>
       <sensor name="navsat_sensor" type="navsat">
-        <always_on>1</always_on>
-        <update_rate>30</update_rate>
-      </sensor>
+  <always_on>true</always_on>
+  <update_rate>10</update_rate>
+  <topic>x500/navsat</topic>
+
+  <navsat>
+    <!-- RTK-like: precisione centimetrica -->
+    <position_sensing>
+      <horizontal>
+        <noise type="gaussian">
+          <mean>0.0</mean>
+          <stddev>0.005</stddev>        <!-- 5 mm (1σ) -->
+          <bias_mean>0.0002</bias_mean>
+          <bias_stddev>0.00005</bias_stddev>
+        </noise>
+      </horizontal>
+      <vertical>
+        <noise type="gaussian">
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>         <!-- 1 cm (1σ) -->
+          <bias_mean>0.0005</bias_mean>
+          <bias_stddev>0.0001</bias_stddev>
+        </noise>
+      </vertical>
+    </position_sensing>
+
+    <velocity_sensing>
+      <horizontal>
+        <noise type="gaussian">
+          <mean>0.0</mean>
+          <stddev>0.02</stddev>         <!-- 2 cm/s (1σ) -->
+        </noise>
+      </horizontal>
+      <vertical>
+        <noise type="gaussian">
+          <mean>0.0</mean>
+          <stddev>0.02</stddev>
+        </noise>
+      </vertical>
+    </velocity_sensing>
+  </navsat>
+</sensor>
     </link>
     <link name="rotor_0">
       <gravity>true</gravity>
