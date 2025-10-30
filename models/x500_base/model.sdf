@@ -238,17 +238,17 @@
           <!-- Noise modeled after IIS2MDC -->
           <x>
             <noise type="gaussian">
-              <stddev>0.0001</stddev>
+              <stddev>0.00001</stddev>
             </noise>
           </x>
           <y>
             <noise type="gaussian">
-              <stddev>0.0001</stddev>
+              <stddev>0.00001</stddev>
             </noise>
           </y>
           <z>
             <noise type="gaussian">
-              <stddev>0.0001</stddev>
+              <stddev>0.00001</stddev>
             </noise>
           </z>
         </magnetometer>
@@ -263,19 +263,19 @@
             <x>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0008726646</stddev>
+                <stddev>0.0002</stddev>
               </noise>
             </x>
             <y>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0008726646</stddev>
+                <stddev>0.0002</stddev>
               </noise>
             </y>
             <z>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0008726646</stddev>
+                <stddev>0.0002</stddev>
               </noise>
             </z>
           </angular_velocity>
@@ -285,20 +285,20 @@
             <x>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.00637</stddev>
+                <stddev>0.002</stddev>
               </noise>
             </x>
             <y>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.00637</stddev>
+                <stddev>0.002</stddev>
               </noise>
             </y>
             <!-- Z axis: 0.70 mg-rms converted to m/ss-->
             <z>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.00686</stddev>
+                <stddev>0.0025</stddev>
               </noise>
             </z>
           </linear_acceleration>
@@ -307,44 +307,8 @@
       <sensor name="navsat_sensor" type="navsat">
   <always_on>true</always_on>
   <update_rate>10</update_rate>
-  <topic>x500/navsat</topic>
 
-  <navsat>
-    <!-- RTK-like: precisione centimetrica -->
-    <position_sensing>
-      <horizontal>
-        <noise type="gaussian">
-          <mean>0.0</mean>
-          <stddev>0.005</stddev>        <!-- 5 mm (1σ) -->
-          <bias_mean>0.0002</bias_mean>
-          <bias_stddev>0.00005</bias_stddev>
-        </noise>
-      </horizontal>
-      <vertical>
-        <noise type="gaussian">
-          <mean>0.0</mean>
-          <stddev>0.01</stddev>         <!-- 1 cm (1σ) -->
-          <bias_mean>0.0005</bias_mean>
-          <bias_stddev>0.0001</bias_stddev>
-        </noise>
-      </vertical>
-    </position_sensing>
-
-    <velocity_sensing>
-      <horizontal>
-        <noise type="gaussian">
-          <mean>0.0</mean>
-          <stddev>0.02</stddev>         <!-- 2 cm/s (1σ) -->
-        </noise>
-      </horizontal>
-      <vertical>
-        <noise type="gaussian">
-          <mean>0.0</mean>
-          <stddev>0.02</stddev>
-        </noise>
-      </vertical>
-    </velocity_sensing>
-  </navsat>
+ 
 </sensor>
     </link>
     <link name="rotor_0">
