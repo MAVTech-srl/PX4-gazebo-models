@@ -47,55 +47,66 @@
           </mesh>
         </geometry>
       </visual>
-      <sensor name="lidar_avia" type="gpu_lidar">
+  <sensor name="lidar_avia" type="gpu_lidar">
 	  <pose>0 0 0.055 0 0 0</pose>
 	  <ray>
 	    <scan>
 	      <horizontal>
-		<samples>360</samples>
-		<resolution>1</resolution>
-		<min_angle>-0.614355</min_angle>
-		<max_angle>0.614355</max_angle>
+          <!-- <samples>360</samples> -->
+          <samples>400</samples>
+          <resolution>1</resolution>
+          <min_angle>-0.614355</min_angle>
+          <max_angle>0.614355</max_angle>
 	      </horizontal>
 	      <vertical>
-		<samples>100</samples>
-		<resolution>1</resolution>
-		<min_angle>-0.674743</min_angle>
-		<max_angle>0.674743</max_angle>
+          <!-- <samples>100</samples> -->
+          <samples>200</samples>
+          <resolution>1</resolution>
+          <min_angle>-0.674743</min_angle>
+          <max_angle>0.674743</max_angle>
 	      </vertical>
 	    </scan>
 	    <range>
 	      <min>0.5</min>
 	      <max>200.0</max>
-	      <resolution>0.02</resolution>
+	      <!-- <resolution>0.02</resolution> -->
+        <resolution>0.002</resolution>
 	    </range>
 	    <noise>
 	      <type>gaussian</type>
 	      <mean>0.0</mean>
-	      <stddev>0.02</stddev>
+	      <stddev>0.01</stddev>
+        <!-- <stddev>0.001</stddev> -->
 	    </noise>
 	  </ray>
 	  <always_on>1</always_on>
-	  <update_rate>15</update_rate>
+    <!-- <samples>24000</samples> -->
+	  <update_rate>10</update_rate>
 	  <visualize>true</visualize>
 	  <topic>livox/lidar</topic>
 	</sensor>
 	
 	<sensor name="imu_sensor" type="imu">
-        <pose>0 0 0.055 0 0 0</pose>
+        <pose>0.04165 0.02326 0.0266 0 0 0</pose>
         <always_on>true</always_on>
         <update_rate>250</update_rate>
         <topic>livox/lidar/imu</topic>
         <imu>
           <angular_velocity>
-            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0008726646</stddev></noise></x>
+            <!-- <x><noise type="gaussian"><mean>0.0</mean><stddev>0.0008726646</stddev></noise></x>
             <y><noise type="gaussian"><mean>0.0</mean><stddev>0.0008726646</stddev></noise></y>
-            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0008726646</stddev></noise></z>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.0008726646</stddev></noise></z> -->
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.0032</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.0032</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.0032</stddev></noise></z>
           </angular_velocity>
           <linear_acceleration>
-            <x><noise type="gaussian"><mean>0.0</mean><stddev>0.00637</stddev></noise></x>
+            <!-- <x><noise type="gaussian"><mean>0.0</mean><stddev>0.00637</stddev></noise></x>
             <y><noise type="gaussian"><mean>0.0</mean><stddev>0.00637</stddev></noise></y>
-            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.00686</stddev></noise></z>
+            <z><noise type="gaussian"><mean>0.0</mean><stddev>0.00686</stddev></noise></z> -->
+            <x><noise type="gaussian"><mean>-0.00</mean><stddev>0.032</stddev></noise></x>
+            <y><noise type="gaussian"><mean>-0.00</mean><stddev>0.032</stddev></noise></y>
+            <z><noise type="gaussian"><mean>-0.00</mean><stddev>0.032</stddev></noise></z>
           </linear_acceleration>
         </imu>
       </sensor>
