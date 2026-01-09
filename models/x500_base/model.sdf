@@ -382,6 +382,9 @@
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
       </axis>
+      <sensor name="force_torque" type="force_torque">
+          <update_rate>30</update_rate>
+      </sensor>
     </joint>
     <link name="rotor_1">
       <gravity>true</gravity>
@@ -454,6 +457,9 @@
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
       </axis>
+      <sensor name="force_torque" type="force_torque">
+          <update_rate>30</update_rate>
+      </sensor>
     </joint>
     <link name="rotor_2">
       <gravity>true</gravity>
@@ -526,6 +532,9 @@
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
       </axis>
+      <sensor name="force_torque" type="force_torque">
+          <update_rate>30</update_rate>
+      </sensor>
     </joint>
     <link name="rotor_3">
       <gravity>true</gravity>
@@ -598,6 +607,9 @@
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
       </axis>
+      <sensor name="force_torque" type="force_torque">
+          <update_rate>30</update_rate>
+      </sensor>
     </joint>
   </model>
 </sdf>
