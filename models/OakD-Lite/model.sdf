@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sdf version='1.9'>
-  <model name='OakD-Lite'>
+<sdf version="1.9">
+  <model name="OakD-Lite">
     <pose>0 0 0 0 0 0</pose>
     <self_collide>false</self_collide>
     <static>false</static>
-    <link name="camera_link">
+
+    <!-- ROOT VIRTUALE: massa/inerzia quasi nulle -->
+    <link name="camera_mount">
       <inertial>
-        <pose>0.00358 -0.03 .014 0 0 0</pose>
+        <mass>0.0001</mass>
+        <inertia>
+          <ixx>1e-6</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>1e-6</iyy><iyz>0</iyz>
+          <izz>1e-6</izz>
+        </inertia>
+      </inertial>
+    </link>
+
+    <!-- CAMERA FRONT: inerzia "reale" + mesh/collision se vuoi -->
+    <link name="camera_link_front">
+      <inertial>
+        <pose>0.12358 0 0.256 0 0 0</pose>
         <mass>0.061</mass>
         <inertia>
           <ixx>0.0000460804</ixx>
@@ -17,8 +31,9 @@
           <izz>0.0000436519</izz>
         </inertia>
       </inertial>
-      <visual name="OakD-Lite/visual">
-        <pose>0 0 0 0 0 0</pose>
+
+      <visual name="oakd_front_visual">
+        <pose>0.12 0.03 0.242 0 0 0</pose>
         <geometry>
           <mesh>
             <scale>1 1 1</scale>
@@ -26,55 +41,251 @@
           </mesh>
         </geometry>
       </visual>
-      <collision name="OakD-Lite/collision">
-        <pose>0.00358 -0.03 .014 0 0 0</pose>
+
+      <collision name="oakd_front_collision">
+        <pose>0.12358 0 0.256 0 0 0</pose>
         <geometry>
-          <box>
-            <size>0.0175 0.091 0.028</size>
-          </box>
+          <box><size>0.0175 0.091 0.028</size></box>
         </geometry>
       </collision>
-      <sensor name="IMX214" type="camera">
-        <pose>0.01233 -0.03 .01878 0 0 0</pose>
+
+      <sensor name="IMX214_front" type="camera">
+        <pose>0.12358 0 0.256 0 0 0</pose>
         <camera>
           <horizontal_fov>1.204</horizontal_fov>
-          <image>
-            <width>1920</width>
-            <height>1080</height>
-          </image>
-          <clip>
-            <near>0.1</near>
-            <far>100</far>
-          </clip>
+          <image><width>1920</width><height>1080</height></image>
+          <clip><near>0.1</near><far>100</far></clip>
         </camera>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>true</visualize>
       </sensor>
-      <sensor name="StereoOV7251" type="depth_camera">
-        <pose>0.01233 -0.03 .01878 0 0 0</pose>
+
+      <sensor name="StereoOV7251_front" type="depth_camera">
+        <pose>0.12358 0 0.256 0 0 0</pose>
         <camera>
           <horizontal_fov>1.274</horizontal_fov>
           <image>
-            <width>640</width>
-            <height>480</height>
-            <format>R_FLOAT32</format>
+            <width>640</width><height>480</height><format>R_FLOAT32</format>
           </image>
-          <clip>
-            <near>0.2</near>
-            <far>19.1</far>
-          </clip>
+          <clip><near>0.2</near><far>19.1</far></clip>
         </camera>
         <always_on>1</always_on>
         <update_rate>30</update_rate>
         <visualize>true</visualize>
-        <topic>depth_camera</topic>
+        <topic>depth_camera_front</topic>
       </sensor>
-      <gravity>true</gravity>
-      <velocity_decay/>
     </link>
-    <!-- <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
-      <render_engine>ogre2</render_engine>
-    </plugin> -->
+
+    <!-- CAMERA RIGHT: inerzia "reale" + mesh/collision se vuoi -->
+    <link name="camera_link_right">
+      <inertial>
+        <pose>0 -0.12358 0.256 0 0 -1.570796</pose>
+        <mass>0.061</mass>
+        <inertia>
+          <ixx>0.0000460804</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0000055421</iyy>
+          <iyz>0</iyz>
+          <izz>0.0000436519</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="oakd_right_visual">
+        <pose>0.03 -0.12 0.242 0 0 -1.570796</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://OakD-Lite/meshes/OakDLite.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="oakd_right_collision">
+        <pose>0 -0.12358 0.256 0 0 -1.570796</pose>
+        <geometry>
+          <box><size>0.0175 0.091 0.028</size></box>
+        </geometry>
+      </collision>
+
+      <sensor name="IMX214_right" type="camera">
+        <pose>0 -0.12358 0.256 0 0 -1.570796</pose>
+        <camera>
+          <horizontal_fov>1.204</horizontal_fov>
+          <image><width>1920</width><height>1080</height></image>
+          <clip><near>0.1</near><far>100</far></clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+      </sensor>
+
+      <sensor name="StereoOV7251_right" type="depth_camera">
+        <pose>0 -0.12358 0.256 0 0 -1.570796</pose>
+        <camera>
+          <horizontal_fov>1.274</horizontal_fov>
+          <image>
+            <width>640</width><height>480</height><format>R_FLOAT32</format>
+          </image>
+          <clip><near>0.2</near><far>19.1</far></clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>depth_camera_right</topic>
+      </sensor>
+    </link>
+
+    <!-- CAMERA LEFT: inerzia "reale" + mesh/collision se vuoi -->
+    <link name="camera_link_left">
+      <inertial>
+        <pose>0 0.12358 0.256 0 0 1.570796</pose>
+        <mass>0.061</mass>
+        <inertia>
+          <ixx>0.0000460804</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0000055421</iyy>
+          <iyz>0</iyz>
+          <izz>0.0000436519</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="oakd_left_visual">
+        <pose>-0.03 0.12 0.242 0 0 1.570796</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://OakD-Lite/meshes/OakDLite.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="oakd_left_collision">
+        <pose>0 0.12358 0.256 0 0 1.570796</pose>
+        <geometry>
+          <box><size>0.0175 0.091 0.028</size></box>
+        </geometry>
+      </collision>
+
+      <sensor name="IMX214_left" type="camera">
+        <pose>0 0.12358 0.256 0 0 1.570796</pose>
+        <camera>
+          <horizontal_fov>1.204</horizontal_fov>
+          <image><width>1920</width><height>1080</height></image>
+          <clip><near>0.1</near><far>100</far></clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+      </sensor>
+
+      <sensor name="StereoOV7251_left" type="depth_camera">
+        <pose>0 0.12358 0.256 0 0 1.570796</pose>
+        <camera>
+          <horizontal_fov>1.274</horizontal_fov>
+          <image>
+            <width>640</width><height>480</height><format>R_FLOAT32</format>
+          </image>
+          <clip><near>0.2</near><far>19.1</far></clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>depth_camera_left</topic>
+      </sensor>
+    </link>
+
+    <!-- CAMERA REAR: inerzia "reale" + mesh/collision se vuoi -->
+    <link name="camera_link_rear">
+      <inertial>
+        <pose>-0.12358 0 0.256 0 0 3.14159</pose>
+        <mass>0.061</mass>
+        <inertia>
+          <ixx>0.0000460804</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0000055421</iyy>
+          <iyz>0</iyz>
+          <izz>0.0000436519</izz>
+        </inertia>
+      </inertial>
+
+      <visual name="oakd_rear_visual">
+        <pose>-0.12 -0.03 0.242 0 0 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://OakD-Lite/meshes/OakDLite.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name="oakd_rear_collision">
+        <pose>-0.12358 0 0.256 0 0 3.14159</pose>
+        <geometry>
+          <box><size>0.0175 0.091 0.028</size></box>
+        </geometry>
+      </collision>
+
+      <sensor name="IMX214_rear" type="camera">
+        <pose>-0.12358 0 0.256 0 0 3.14159</pose>
+        <camera>
+          <horizontal_fov>1.204</horizontal_fov>
+          <image><width>1920</width><height>1080</height></image>
+          <clip><near>0.1</near><far>100</far></clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+      </sensor>
+
+      <sensor name="StereoOV7251_rear" type="depth_camera">
+        <pose>-0.12358 0 0.256 0 0 3.14159</pose>
+        <camera>
+          <horizontal_fov>1.274</horizontal_fov>
+          <image>
+            <width>640</width><height>480</height><format>R_FLOAT32</format>
+          </image>
+          <clip><near>0.2</near><far>19.1</far></clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>depth_camera_rear</topic>
+      </sensor>
+    </link>
+
+    <!-- JOINT: mount -> front -->
+    <joint name="mount_to_front" type="fixed">
+      <parent>camera_mount</parent>
+      <child>camera_link_front</child>
+      <!-- posa del front rispetto al mount (se mount è al “centro”, qui metti offset) -->
+      <pose relative_to="camera_mount">.12 .03 0.242 0 0 0</pose>
+    </joint>
+
+    <!-- JOINT: mount -> right -->
+    <joint name="mount_to_right" type="fixed">
+      <parent>camera_mount</parent>
+      <child>camera_link_right</child>
+      <!-- yaw -90° per guardare a destra -->
+      <pose relative_to="camera_mount">0.03 -0.12 0.242 0 0 -1.570796</pose>
+    </joint>
+
+    <!-- JOINT: mount -> left -->
+    <joint name="mount_to_left" type="fixed">
+      <parent>camera_mount</parent>
+      <child>camera_link_left</child>
+      <pose relative_to="camera_mount">-0.03 0.12 0.242 0 0 1.570796</pose>
+    </joint>
+
+    <!-- JOINT: mount -> rear -->
+    <joint name="mount_to_rear" type="fixed">
+      <parent>camera_mount</parent>
+      <child>camera_link_rear</child>
+      <pose relative_to="camera_mount">-0.12 -0.03 0.242 0 0 3.14159</pose>
+    </joint>
+
   </model>
 </sdf>
