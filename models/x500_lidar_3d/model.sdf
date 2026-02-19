@@ -20,12 +20,14 @@
     </include>
     <include merge='true'>
       <uri>model://lidar_3d</uri>
-      <pose>.12 0 .26 0 0 0</pose>
+      <!-- <pose>.12 0 .26 0 0 0</pose> -->
+      <pose>0 0 0.26 0 0 0</pose>
     </include>
     <joint name="LidarJoint" type="fixed">
       <parent>base_link</parent>
       <child>link</child>
-      <pose relative_to="base_link">-.1 0 .26 0 0 0</pose>
+      <!-- <pose relative_to="base_link">-.1 0 .26 0 0 0</pose> -->
+      <pose relative_to="base_link">-0 0 0.26 0 0 0</pose>
     </joint>
   </model>
 </sdf>

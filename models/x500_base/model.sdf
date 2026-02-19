@@ -383,7 +383,17 @@
         </dynamics>
       </axis>
       <sensor name="force_torque" type="force_torque">
-          <update_rate>30</update_rate>
+          <update_rate>400</update_rate>
+          <force>
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></z>
+          </force>
+          <torque>
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></z>
+          </torque>
       </sensor>
     </joint>
     <link name="rotor_1">
@@ -458,7 +468,17 @@
         </dynamics>
       </axis>
       <sensor name="force_torque" type="force_torque">
-          <update_rate>30</update_rate>
+          <update_rate>400</update_rate>
+          <force>
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></z>
+          </force>
+          <torque>
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></z>
+          </torque>
       </sensor>
     </joint>
     <link name="rotor_2">
@@ -533,7 +553,17 @@
         </dynamics>
       </axis>
       <sensor name="force_torque" type="force_torque">
-          <update_rate>30</update_rate>
+          <update_rate>400</update_rate>
+          <force>
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></z>
+          </force>
+          <torque>
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></z>
+          </torque>
       </sensor>
     </joint>
     <link name="rotor_3">
@@ -608,7 +638,17 @@
         </dynamics>
       </axis>
       <sensor name="force_torque" type="force_torque">
-          <update_rate>30</update_rate>
+          <update_rate>400</update_rate>
+          <force>
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></z>
+          </force>
+          <torque>
+            <x><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></x>
+            <y><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></y>
+            <z><noise type="gaussian"><mean>0.00</mean><stddev>0.00</stddev></noise></z>
+          </torque>
       </sensor>
     </joint>
   </model>
