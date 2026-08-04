@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version="1.9">
+  <model name="moving_platform_aruco">
+    <!-- moving_platform's own model name is "flat_platform"; merging pulls in
+         its platform_link (incl. the MovingPlatformController plugin) as-is,
+         at its own declared pose (platform_link sits at z=2 in that model). -->
+    <include merge="true">
+      <uri>moving_platform</uri>
+    </include>
+
+    <!-- arucotag is normally a standalone <static>true</static> model sitting
+         on the ground (see worlds/aruco.sdf). Merging drops that top-level
+         model wrapper (static flag included) and just pulls in its "base"
+         link, so it becomes a regular dynamic link of this model -- free to
+         be locked to platform_link by the fixed joint below and carried
+         along by MovingPlatformController.
+         Platform box is 5x5x0.1, centered on platform_link (z=2), so its top
+         face is at z=2.05; 2.051 lifts the marker plane 1mm above that to
+         avoid z-fighting, same margin used in worlds/aruco.sdf for the
+         ground-placed tag. -->
+    <include merge="true">
+      <uri>model://arucotag</uri>
+      <pose>0 0 2.051 0 0 0</pose>
+      <name>arucotag</name>
+    </include>
+
+    <joint name="MarkerJoint" type="fixed">
+      <parent>platform_link</parent>
+      <child>base</child>
+      <pose relative_to="platform_link">0 0 0.05 0 0 0</pose>
+    </joint>
+  </model>
+</sdf>
