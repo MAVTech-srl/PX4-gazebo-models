@@ -257,27 +257,27 @@
         <always_on>1</always_on>
         <update_rate>250</update_rate>
         <imu>
-          <!-- Noise-free gyro/accel for debugging: was modeled after the
-               IIM42653 datasheet (0.05 deg/s gyro, 0.65/0.70 mg-rms accel),
-               zeroed out to take IMU noise out of the picture while
-               isolating GPS/EKF2 estimation issues. -->
+          <!-- Reduced (not zeroed -- a stddev of exactly 0 fails PX4's
+               sensor sanity checks) gyro/accel noise for debugging: was
+               modeled after the IIM42653 datasheet (0.05 deg/s gyro,
+               0.65/0.70 mg-rms accel), scaled down 10x. -->
           <angular_velocity>
             <x>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0</stddev>
+                <stddev>0.00008726646</stddev>
               </noise>
             </x>
             <y>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0</stddev>
+                <stddev>0.00008726646</stddev>
               </noise>
             </y>
             <z>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0</stddev>
+                <stddev>0.00008726646</stddev>
               </noise>
             </z>
           </angular_velocity>
@@ -285,19 +285,19 @@
             <x>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0</stddev>
+                <stddev>0.000637</stddev>
               </noise>
             </x>
             <y>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0</stddev>
+                <stddev>0.000637</stddev>
               </noise>
             </y>
             <z>
               <noise type="gaussian">
                 <mean>0.0</mean>
-                <stddev>0.0</stddev>
+                <stddev>0.000686</stddev>
               </noise>
             </z>
           </linear_acceleration>
