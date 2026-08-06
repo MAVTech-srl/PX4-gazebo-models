@@ -4,7 +4,13 @@
     <static>true</static>
     <pose>0 0 0.001 0 0 0</pose>
     <link name='base'>
-      <visual name='base_visual'>
+      <!-- White backing board (the paper's real platform background --
+           see Fig. 2): 13 markers laid directly edge-to-edge like the old
+           single tag would leave no quiet zone between them, which hurts
+           detection at the boundary between rings. Raised 0.2mm below the
+           tags themselves (not above) only to establish paint order --
+           actual z-fighting is avoided because no tag overlaps another. -->
+      <visual name='background_visual'>
         <geometry>
           <plane>
             <normal>0 0 1</normal>
@@ -13,10 +19,239 @@
         </geometry>
         <material>
           <diffuse>1 1 1 1</diffuse>
+          <specular>0.2 0.2 0.2 1</specular>
+        </material>
+      </visual>
+      <visual name='tag_0_visual'>
+        <pose>0.17 0.17 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.14 0.14</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
           <specular>0.4 0.4 0.4 1</specular>
           <pbr>
             <metal>
-              <albedo_map>model://arucotag/arucotag.png</albedo_map>
+              <albedo_map>model://arucotag/aruco_0.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_1_visual'>
+        <pose>-0.17 0.17 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.14 0.14</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_1.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_2_visual'>
+        <pose>-0.17 -0.17 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.14 0.14</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_2.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_3_visual'>
+        <pose>0.17 -0.17 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.14 0.14</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_3.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_4_visual'>
+        <pose>0.0 0.11 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.07 0.07</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_4.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_5_visual'>
+        <pose>-0.11 0.0 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.07 0.07</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_5.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_6_visual'>
+        <pose>0.0 -0.11 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.07 0.07</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_6.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_7_visual'>
+        <pose>0.11 0.0 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.07 0.07</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_7.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_8_visual'>
+        <pose>0.0 0.045 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.025 0.025</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_8.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_9_visual'>
+        <pose>-0.045 0.0 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.025 0.025</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_9.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_10_visual'>
+        <pose>0.0 -0.045 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.025 0.025</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_10.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_11_visual'>
+        <pose>0.045 0.0 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.025 0.025</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_11.png</albedo_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <visual name='tag_12_visual'>
+        <pose>0.0 0.0 0.0002 0 0 0</pose>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>0.018 0.018</size>
+          </plane>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <specular>0.4 0.4 0.4 1</specular>
+          <pbr>
+            <metal>
+              <albedo_map>model://arucotag/aruco_12.png</albedo_map>
             </metal>
           </pbr>
         </material>
