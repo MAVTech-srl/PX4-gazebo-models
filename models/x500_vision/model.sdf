@@ -1,13 +1,498 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sdf version='1.9'>
-  <model name='x500_vision'>
-    <include merge='true'>
+
+<sdf version="1.9">
+  <model name="x500_stereo_cam">
+
+    <!--
+      Global spawn orientation.
+
+      Gazebo world uses ENU:
+        +X = East
+        +Y = North
+        +Z = Up
+
+      The ROS map used by the stack is NWU:
+        +X = North
+        +Y = West
+        +Z = Up
+
+      PX4 local position uses NED:
+        +X = North
+        +Y = East
+        +Z = Down
+
+      Rotating the complete vehicle +90 deg around Gazebo Z makes:
+        body +X = Gazebo +Y = North = map +X = PX4 NED +X
+
+      Therefore at spawn:
+        yaw_ENU  = +90 deg
+        yaw_NWU  =   0 deg
+        yaw_NED  =   0 deg
+    -->
+    <pose>0 0 0 0 0 1.5707963267948966</pose>
+
+    <include merge="true">
       <uri>x500</uri>
     </include>
-      <plugin
-        filename="gz-sim-odometry-publisher-system"
-        name="gz::sim::systems::OdometryPublisher">
-        <dimensions>3</dimensions>
-      </plugin>
+
+    <!--
+      Ground-truth 3D odometry publisher.
+
+      Gazebo Transport topic:
+        /ground_truth/odometry
+
+      Message type:
+        gz.msgs.Odometry
+
+      Coordinate convention:
+        - pose is expressed relative to the Gazebo world frame;
+        - Gazebo world follows ENU convention;
+        - linear and angular velocities are associated with the robot body.
+
+      This is simulation ground truth and does not contain artificial noise.
+    -->
+    <plugin
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+
+      <dimensions>3</dimensions>
+      <odom_publish_frequency>100</odom_publish_frequency>
+
+      <odom_topic>/ground_truth/odometry</odom_topic>
+      <tf_topic>/ground_truth/pose</tf_topic>
+
+      <odom_frame>world</odom_frame>
+      <robot_base_frame>body</robot_base_frame>
+    </plugin>
+
+    <!--
+      Stereo rig centered around the previous mono camera pose.
+
+      Original mono-camera position:
+        x = 0.12 m
+        y = 0.00 m
+        z = 0.00 m
+
+      Stereo baseline:
+        baseline  = 0.08407 m
+        half-base = 0.042035 m
+
+      Left camera:
+        y = +0.042035 m
+
+      Right camera:
+        y = -0.042035 m
+    -->
+
+    <!-- ================================================================ -->
+    <!-- Left stereo camera                                                -->
+    <!-- ================================================================ -->
+
+    <link name="stereo_left_camera_link">
+      <pose relative_to="base_link">0.12 0.042035 0.0 0 0 0</pose>
+
+      <inertial>
+        <mass>0.01</mass>
+        <inertia>
+          <ixx>1e-6</ixx>
+          <iyy>1e-6</iyy>
+          <izz>1e-6</izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+
+      <visual name="stereo_left_camera_visual">
+        <geometry>
+          <box>
+            <size>0.025 0.025 0.025</size>
+          </box>
+        </geometry>
+
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.15 0.15 0.15 1.0</diffuse>
+          <specular>0.3 0.3 0.3 1.0</specular>
+        </material>
+      </visual>
+
+      <collision name="stereo_left_camera_collision">
+        <geometry>
+          <box>
+            <size>0.025 0.025 0.025</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <sensor name="stereo_left_imager" type="camera">
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>stereo/left/image</topic>
+
+        <camera>
+          <horizontal_fov>1.2210</horizontal_fov>
+
+          <image>
+            <width>640</width>
+            <height>400</height>
+            <format>R8G8B8</format>
+          </image>
+
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+
+          <lens>
+            <intrinsics>
+              <fx>457.49247779209315</fx>
+              <fy>457.48504414443306</fy>
+              <cx>308.6311047035431</cx>
+              <cy>203.91512727496524</cy>
+              <s>0.0</s>
+            </intrinsics>
+          </lens>
+
+          <distortion>
+            <k1>0.04340066769612059</k1>
+            <k2>-0.06181878686765437</k2>
+            <k3>0.0</k3>
+            <p1>-8.992302514304485e-09</p1>
+            <p2>-0.0002172558175591586</p2>
+            <center>308.6311047035431 203.91512727496524</center>
+          </distortion>
+        </camera>
+      </sensor>
+    </link>
+
+    <joint name="StereoLeftCameraJoint" type="fixed">
+      <parent>base_link</parent>
+      <child>stereo_left_camera_link</child>
+    </joint>
+
+    <!-- ================================================================ -->
+    <!-- Right stereo camera                                               -->
+    <!-- ================================================================ -->
+
+    <link name="stereo_right_camera_link">
+      <pose relative_to="base_link">0.12 -0.042035 0.0 0 0 0</pose>
+
+      <inertial>
+        <mass>0.01</mass>
+        <inertia>
+          <ixx>1e-6</ixx>
+          <iyy>1e-6</iyy>
+          <izz>1e-6</izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+
+      <visual name="stereo_right_camera_visual">
+        <geometry>
+          <box>
+            <size>0.025 0.025 0.025</size>
+          </box>
+        </geometry>
+
+        <material>
+          <ambient>0.1 0.1 0.1 1.0</ambient>
+          <diffuse>0.15 0.15 0.15 1.0</diffuse>
+          <specular>0.3 0.3 0.3 1.0</specular>
+        </material>
+      </visual>
+
+      <collision name="stereo_right_camera_collision">
+        <geometry>
+          <box>
+            <size>0.025 0.025 0.025</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <sensor name="stereo_right_imager" type="camera">
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>stereo/right/image</topic>
+
+        <camera>
+          <horizontal_fov>1.2232</horizontal_fov>
+
+          <image>
+            <width>640</width>
+            <height>400</height>
+            <format>R8G8B8</format>
+          </image>
+
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+
+          <lens>
+            <intrinsics>
+              <fx>456.5532710969719</fx>
+              <fy>456.5174039458113</fy>
+              <cx>303.6336559893636</cx>
+              <cy>200.93789390414827</cy>
+              <s>0.0</s>
+            </intrinsics>
+          </lens>
+
+          <distortion>
+            <k1>0.0434423422804124</k1>
+            <k2>-0.05993058385753211</k2>
+            <k3>0.0</k3>
+            <p1>-7.319392412700604e-05</p1>
+            <p2>0.0002806961399394932</p2>
+            <center>303.6336559893636 200.93789390414827</center>
+          </distortion>
+        </camera>
+      </sensor>
+    </link>
+
+    <joint name="StereoRightCameraJoint" type="fixed">
+      <parent>base_link</parent>
+      <child>stereo_right_camera_link</child>
+    </joint>
+
+    <!-- ================================================================ -->
+    <!-- Livox MID-360 approximation                                       -->
+    <!-- ================================================================ -->
+
+    <!--
+      MID-360 nominal physical properties:
+
+        Envelope:          65 x 65 x 60 mm
+        Mass:              265 g
+        Horizontal FOV:    360 degrees
+        Vertical FOV:      -7 to +52 degrees
+        Minimum range:     0.1 m
+        Maximum range:     70 m at high reflectivity
+        Point rate:        200,000 points/s
+        Typical frame rate: 10 Hz
+        Density:           approximately 40 lines
+
+      Mounting position:
+
+        Camera housing top:
+          z = 0.025 / 2 = 0.0125 m
+
+        Mechanical clearance:
+          0.005 m
+
+        Lidar half-height:
+          0.060 / 2 = 0.030 m
+
+        Lidar center:
+          z = 0.0125 + 0.005 + 0.030
+            = 0.0475 m
+
+      Therefore, the lidar is centered over the stereo pair at:
+
+        x = 0.12 m
+        y = 0.00 m
+        z = 0.0475 m
+
+      Important simulation limitation:
+
+      A real MID-360 uses Livox's non-repetitive rotating-mirror scan
+      pattern. The standard Gazebo gpu_lidar sensor produces a regular
+      raster scan instead. The configured angular coverage, point count,
+      frame rate, range and noise approximate the real unit, but its exact
+      temporal sampling pattern is not reproduced.
+    -->
+
+    <link name="mid360_link">
+      <pose relative_to="base_link">0.12 0.0 0.0475 0 0.2617993877991494 0</pose>
+
+      <inertial>
+        <mass>0.265</mass>
+
+        <inertia>
+          <ixx>0.0001495</ixx>
+          <iyy>0.0001495</iyy>
+          <izz>0.0001400</izz>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyz>0</iyz>
+        </inertia>
+      </inertial>
+
+      <visual name="mid360_lower_body_visual">
+        <pose>0 0 -0.010 0 0 0</pose>
+
+        <geometry>
+          <cylinder>
+            <radius>0.0325</radius>
+            <length>0.040</length>
+          </cylinder>
+        </geometry>
+
+        <material>
+          <ambient>0.08 0.08 0.08 1.0</ambient>
+          <diffuse>0.12 0.12 0.12 1.0</diffuse>
+          <specular>0.25 0.25 0.25 1.0</specular>
+        </material>
+      </visual>
+
+      <visual name="mid360_optical_head_visual">
+        <pose>0 0 0.020 0 0 0</pose>
+
+        <geometry>
+          <cylinder>
+            <radius>0.030</radius>
+            <length>0.020</length>
+          </cylinder>
+        </geometry>
+
+        <material>
+          <ambient>0.02 0.02 0.02 1.0</ambient>
+          <diffuse>0.03 0.03 0.03 1.0</diffuse>
+          <specular>0.6 0.6 0.6 1.0</specular>
+        </material>
+      </visual>
+
+      <collision name="mid360_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.0325</radius>
+            <length>0.060</length>
+          </cylinder>
+        </geometry>
+      </collision>
+
+      <sensor name="mid360_lidar" type="gpu_lidar">
+        <pose>0 0 0 0 0 0</pose>
+
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>10</update_rate>
+
+        <topic>lidar/points</topic>
+
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>500</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.141592653589793</min_angle>
+              <max_angle>3.141592653589793</max_angle>
+            </horizontal>
+
+            <vertical>
+              <samples>40</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.122173047639603</min_angle>
+              <max_angle>0.907571211037051</max_angle>
+            </vertical>
+          </scan>
+
+          <range>
+            <min>0.4</min>
+            <max>70.0</max>
+            <resolution>0.01</resolution>
+          </range>
+
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.02</stddev>
+          </noise>
+        </lidar>
+      </sensor>
+
+      <sensor name="mid360_imu" type="imu">
+        <pose>0 0 0 0 0 0</pose>
+
+        <always_on>true</always_on>
+        <visualize>false</visualize>
+        <update_rate>200</update_rate>
+
+        <topic>lidar/imu</topic>
+
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.00035</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.00005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000</dynamic_bias_correlation_time>
+              </noise>
+            </x>
+
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.00035</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.00005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000</dynamic_bias_correlation_time>
+              </noise>
+            </y>
+
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.00035</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.00005</bias_stddev>
+                <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>1000</dynamic_bias_correlation_time>
+              </noise>
+            </z>
+          </angular_velocity>
+
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.004</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0005</bias_stddev>
+                <dynamic_bias_stddev>0.0002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300</dynamic_bias_correlation_time>
+              </noise>
+            </x>
+
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.004</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0005</bias_stddev>
+                <dynamic_bias_stddev>0.0002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300</dynamic_bias_correlation_time>
+              </noise>
+            </y>
+
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>0.004</stddev>
+                <bias_mean>0.0</bias_mean>
+                <bias_stddev>0.0005</bias_stddev>
+                <dynamic_bias_stddev>0.0002</dynamic_bias_stddev>
+                <dynamic_bias_correlation_time>300</dynamic_bias_correlation_time>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </link>
+
+    <joint name="Mid360Joint" type="fixed">
+      <parent>base_link</parent>
+      <child>mid360_link</child>
+    </joint>
+
   </model>
 </sdf>
